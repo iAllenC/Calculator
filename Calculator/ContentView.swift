@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var brain: CalculatorBrain = .left("0")
+    @ObservedObject private var model = CalculatorMode()
     
     let scale = UIScreen.main.bounds.width / 414
     
     var body: some View {
         VStack(spacing: 12) {
             Spacer()
-            Text(brain.output)
+            Text(model.brain.output)
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
                 .padding(.trailing, 24)
@@ -25,7 +25,7 @@ struct ContentView: View {
                     minWidth:0,
                     maxWidth: .infinity,
                     alignment: .trailing)
-            CalculatorButtonPad(brain: $brain)
+            CalculatorButtonPad(model: model)
                 .padding(.bottom)
         }
         .scaleEffect(scale)
@@ -72,8 +72,9 @@ struct CalculatorButton: View {
 
 struct CalculatorButtonRow: View {
     
-    @Binding var brain: CalculatorBrain
-    
+//    @Binding var brain: CalculatorBrain
+    var model: CalculatorMode
+
     let row: [CalculatorButtonItem]
     
     var body: some View {
@@ -83,7 +84,7 @@ struct CalculatorButtonRow: View {
                                  size: item.size,
                                  foregroundColor: item.foregroundColor,
                                  backgroundColor: item.backgroundColor) {
-                    brain = brain.apply(item: item)
+                    model.apply(item)
                 }
             }
         }
@@ -92,8 +93,9 @@ struct CalculatorButtonRow: View {
 
 struct CalculatorButtonPad: View {
     
-    @Binding var brain: CalculatorBrain
-
+//    @Binding var brain: CalculatorBrain
+    var model: CalculatorMode
+    
     let pad: [[CalculatorButtonItem]] = [
         [.command(.clear), .command(.flip), .command(.percent), .operator(.divide)],
         [.digit(1), .digit(2), .digit(3), .operator(.plus)],
@@ -105,7 +107,7 @@ struct CalculatorButtonPad: View {
     var body: some View {
         VStack(spacing: 8) {
             ForEach(pad, id: \.self) {
-                CalculatorButtonRow(brain: $brain, row: $0)
+                CalculatorButtonRow(model: model, row: $0)
             }
         }
     }

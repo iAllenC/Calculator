@@ -16,6 +16,7 @@
 		BC6608902515DA3500E5EBAE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC66088F2515DA3500E5EBAE /* Colors.swift */; };
 		BC6608962515E21400E5EBAE /* CalculatorButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6608952515E21400E5EBAE /* CalculatorButtonItem.swift */; };
 		BCC041212515FBE200084678 /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC041202515FBE100084678 /* CalculatorBrain.swift */; };
+		BCC04126251609C700084678 /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC04125251609C600084678 /* CalculatorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		BC66088F2515DA3500E5EBAE /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		BC6608952515E21400E5EBAE /* CalculatorButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtonItem.swift; sourceTree = "<group>"; };
 		BCC041202515FBE100084678 /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
+		BCC04125251609C600084678 /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				BCC041202515FBE100084678 /* CalculatorBrain.swift */,
+				BCC04125251609C600084678 /* CalculatorModel.swift */,
 			);
 			path = Calculate;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				BC66085E2515D7A000E5EBAE /* ContentView.swift in Sources */,
 				BC6608902515DA3500E5EBAE /* Colors.swift in Sources */,
 				BC6608962515E21400E5EBAE /* CalculatorButtonItem.swift in Sources */,
+				BCC04126251609C700084678 /* CalculatorModel.swift in Sources */,
 				BCC041212515FBE200084678 /* CalculatorBrain.swift in Sources */,
 				BC66085C2515D7A000E5EBAE /* CalculatorApp.swift in Sources */,
 			);
