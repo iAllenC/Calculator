@@ -9,12 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var brain: CalculatorBrain = .left("0")
+    
     let scale = UIScreen.main.bounds.width / 414
     
     var body: some View {
         VStack(spacing: 12) {
             Spacer()
-            Text("0")
+            Text(brain.output)
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
                 .padding(.trailing, 24)
@@ -23,7 +25,7 @@ struct ContentView: View {
                     minWidth:0,
                     maxWidth: .infinity,
                     alignment: .trailing)
-            CalculatorButtonPad()
+            CalculatorButtonPad(brain: $brain)
                 .padding(.bottom)
         }
         .scaleEffect(scale)
@@ -42,33 +44,35 @@ struct CalculatorButton: View {
 
     var body: some View {
         // 实现方式一
-//        Button(action: action) {
-//            Text(title)
-//                .font(.system(size: fontSize))
-//                .foregroundColor(foregroundColor)
-//                .foregroundColor(foregroundColor)
-//                .frame(width: size.width, height: size.height)
-//                .background(backgroundColor)
-//                .cornerRadius(size.width/2)
-//        }
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: fontSize))
+                .foregroundColor(foregroundColor)
+                .foregroundColor(foregroundColor)
+                .frame(width: size.width, height: size.height)
+                .background(backgroundColor)
+                .cornerRadius(size.width/2)
+        }
 
         // 实现方式二
-        Button(action: action) {
-            ZStack {
-                RoundedRectangle(cornerRadius: size.width/2)
-                    .frame(width: size.width, height: size.height)
-                    .foregroundColor(backgroundColor)
-                Text(title)
-                    .font(.system(size: fontSize))
-                    .foregroundColor(foregroundColor)
-
-            }
-        }
+//        Button(action: action) {
+//            ZStack {
+//                RoundedRectangle(cornerRadius: size.width/2)
+//                    .frame(width: size.width, height: size.height)
+//                    .foregroundColor(backgroundColor)
+//                Text(title)
+//                    .font(.system(size: fontSize))
+//                    .foregroundColor(foregroundColor)
+//
+//            }
+//        }
     }
 }
 
 
 struct CalculatorButtonRow: View {
+    
+    @Binding var brain: CalculatorBrain
     
     let row: [CalculatorButtonItem]
     
@@ -79,7 +83,7 @@ struct CalculatorButtonRow: View {
                                  size: item.size,
                                  foregroundColor: item.foregroundColor,
                                  backgroundColor: item.backgroundColor) {
-                    print("Button: \(item.title)")
+                    brain = brain.apply(item: item)
                 }
             }
         }
@@ -88,6 +92,8 @@ struct CalculatorButtonRow: View {
 
 struct CalculatorButtonPad: View {
     
+    @Binding var brain: CalculatorBrain
+
     let pad: [[CalculatorButtonItem]] = [
         [.command(.clear), .command(.flip), .command(.percent), .operator(.divide)],
         [.digit(1), .digit(2), .digit(3), .operator(.plus)],
@@ -99,7 +105,7 @@ struct CalculatorButtonPad: View {
     var body: some View {
         VStack(spacing: 8) {
             ForEach(pad, id: \.self) {
-                CalculatorButtonRow(row: $0)
+                CalculatorButtonRow(brain: $brain, row: $0)
             }
         }
     }

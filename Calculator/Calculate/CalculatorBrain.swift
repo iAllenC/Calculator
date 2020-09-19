@@ -196,3 +196,12 @@ extension CalculatorButtonItem.Operator {
         return result.map { String($0) }
     }
 }
+
+typealias CalculatorState = CalculatorBrain
+typealias CalculatorStateAction = CalculatorButtonItem
+
+struct Reducer {
+    static func reduce(state: CalculatorState,action: CalculatorStateAction) -> CalculatorState {
+        return state.apply(item: action)
+    }
+}
