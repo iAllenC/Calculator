@@ -70,3 +70,14 @@ extension CalculatorButtonItem {
 }
 
 extension CalculatorButtonItem: Hashable { }
+
+extension CalculatorButtonItem: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .digit(let num): return String(num)
+        case .dot: return "."
+        case .operator(let op): return op.rawValue
+        case .command(let command): return command.rawValue
+        }
+    }
+}

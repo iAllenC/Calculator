@@ -9,13 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject private var model = CalculatorMode()
+    @EnvironmentObject private var model: CalculatorMode
+    @State private var editingHistory: Bool = false
+    @State private var showingResult: Bool = false
     
     let scale = UIScreen.main.bounds.width / 414
     
     var body: some View {
         VStack(spacing: 12) {
             Spacer()
+//            Button("操作履历:\(model.history.count)") {
+//                editingHistory = true
+//            }.sheet(isPresented: $editingHistory) {
+//                HistoryView(model: model, isPresenting: $editingHistory)
+//            }
+            HistoryView(model: model, isPresenting: $editingHistory)
             Text(model.brain.output)
                 .font(.system(size: 76))
                 .minimumScaleFactor(0.5)
@@ -25,7 +33,14 @@ struct ContentView: View {
                     minWidth:0,
                     maxWidth: .infinity,
                     alignment: .trailing)
-            CalculatorButtonPad(model: model)
+                .onTapGesture {
+                    showingResult = true
+                }.alert(isPresented: $showingResult) {
+                    Alert(title: Text(model.historyDetail), message: Text(model.brain.output), primaryButton: .cancel(Text("取消")), secondaryButton: .default(Text("复制")) {
+                        UIPasteboard.general.string = model.brain.output
+                    })
+                }
+            CalculatorButtonPad()
                 .padding(.bottom)
         }
         .scaleEffect(scale)
@@ -73,7 +88,7 @@ struct CalculatorButton: View {
 struct CalculatorButtonRow: View {
     
 //    @Binding var brain: CalculatorBrain
-    var model: CalculatorMode
+    @EnvironmentObject var model: CalculatorMode
 
     let row: [CalculatorButtonItem]
     
@@ -94,7 +109,7 @@ struct CalculatorButtonRow: View {
 struct CalculatorButtonPad: View {
     
 //    @Binding var brain: CalculatorBrain
-    var model: CalculatorMode
+//    var model: CalculatorMode
     
     let pad: [[CalculatorButtonItem]] = [
         [.command(.clear), .command(.flip), .command(.percent), .operator(.divide)],
@@ -107,7 +122,7 @@ struct CalculatorButtonPad: View {
     var body: some View {
         VStack(spacing: 8) {
             ForEach(pad, id: \.self) {
-                CalculatorButtonRow(model: model, row: $0)
+                CalculatorButtonRow(row: $0)
             }
         }
     }
@@ -118,8 +133,11 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
+                .environmentObject(CalculatorMode())
                 .preferredColorScheme(.dark)
-            ContentView().previewDevice("iPhone 8")
+            ContentView()
+                .environmentObject(CalculatorMode())
+                .previewDevice("iPhone 8")
         }
     }
 }
